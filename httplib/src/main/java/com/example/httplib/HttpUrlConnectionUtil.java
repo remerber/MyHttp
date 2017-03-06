@@ -23,12 +23,13 @@ public class HttpUrlConnectionUtil {
     public static String execute(Request request) throws IOException {
         switch (request.method) {
             case GET:
+            case DELETE:
                 return get(request);
 
             case POST:
-                return post(request);
             case PUT:
-            case DELETE:
+                return post(request);
+
 
         }
         return null;
@@ -87,6 +88,7 @@ public class HttpUrlConnectionUtil {
             out.flush();
             out.close();
             return new String(out.toByteArray());
+
         }
         return null;
 

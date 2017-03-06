@@ -7,13 +7,20 @@ import java.util.Map;
  */
 
 public class Request {
-    public enum  RequestMethod {GET,POST,PUT,DELETE}
+    public enum RequestMethod {GET, POST, PUT, DELETE}
 
     public String url;
     public String content;
-    public Map<String,String> headers;
+    public Map<String, String> headers;
 
-     public RequestMethod method;
+    public RequestMethod method;
+
+    public ICallback iCallback;
+
+    public void setCallback(ICallback iCallback) {
+        this.iCallback = iCallback;
+    }
+
 
     public Request(String url, RequestMethod method) {
         this.url = url;
@@ -22,6 +29,6 @@ public class Request {
 
     public Request(String url) {
         this.url = url;
-        this.method=RequestMethod.GET;
+        this.method = RequestMethod.GET;
     }
 }
