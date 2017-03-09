@@ -3,6 +3,7 @@ package com.example.httplib;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 /**
  * Created by HP on 2017/3/6.
@@ -24,13 +25,18 @@ public class RequestTask extends AsyncTask<Void, Integer, Object> {
 
     @Override
     protected Object doInBackground(Void... params) {
+
+
         try {
-            return HttpUrlConnectionUtil.execute(request);
-        } catch (IOException e) {
+            HttpURLConnection connection = HttpUrlConnectionUtil.execute(request);
+            return request.iCallback.parse(connection);
+
+        } catch (Exception e) {
             return e;
         }
 
     }
+
 
     @Override
     protected void onPostExecute(Object o) {
@@ -38,7 +44,7 @@ public class RequestTask extends AsyncTask<Void, Integer, Object> {
         if (o instanceof Exception) {
             request.iCallback.onFailure((Exception) o);
         } else {
-            request.iCallback.onSuccess((String) o);
+            request.iCallback.onSuccess(o);
         }
     }
 }

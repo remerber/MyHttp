@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.httplib.HttpUrlConnectionUtil;
 import com.example.httplib.ICallback;
+import com.example.httplib.JsonCallback;
 import com.example.httplib.Request;
 import com.example.httplib.RequestTask;
 
@@ -34,15 +35,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void testHttpPostOnSubThread() {
         String url = "http://api.stay4it.com/v1/public/core/?service=user.login";
         String content = "account=stay4it&password=123456";
-        Request request = new Request(url, Request.RequestMethod.POST);
-        request.setCallback(new ICallback() {
+        final Request request = new Request(url, Request.RequestMethod.POST);
+        request.setCallback(new JsonCallback<User>() {
+
             @Override
-            public void onSuccess(String result) {
-                textView.setText("result:   "+result.toString());
+            public void onSuccess(User result) {
+                textView.setText(result.toString());
             }
 
             @Override

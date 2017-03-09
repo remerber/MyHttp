@@ -20,7 +20,7 @@ import java.util.Map;
 public class HttpUrlConnectionUtil {
 
 
-    public static String execute(Request request) throws IOException {
+    public static HttpURLConnection execute(Request request) throws IOException {
         switch (request.method) {
             case GET:
             case DELETE:
@@ -35,7 +35,7 @@ public class HttpUrlConnectionUtil {
         return null;
     }
 
-    private static String get(Request request) throws IOException {
+    private static HttpURLConnection get(Request request) throws IOException {
 
         HttpURLConnection connection = (HttpURLConnection) new URL(request.url).openConnection();
         connection.setRequestMethod(request.method.name());
@@ -44,26 +44,12 @@ public class HttpUrlConnectionUtil {
 
         addHeaders(connection, request.headers);
 
-        int status = connection.getResponseCode();
-        if (status == HttpStatus.SC_OK) {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream is = connection.getInputStream();
-            byte[] buffer = new byte[2048];
-            int len;
-            while ((len = is.read(buffer)) != -1) {
-                out.write(buffer, 0, len);
-            }
-            is.close();
-            out.flush();
-            out.close();
-            return new String(out.toByteArray());
 
-        }
-        return null;
+        return connection;
 
     }
 
-    private static String post(Request request) throws IOException {
+    private static HttpURLConnection post(Request request) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) new URL(request.url).openConnection();
         connection.setRequestMethod(request.method.name());
         connection.setConnectTimeout(15 * 3000);
@@ -75,22 +61,8 @@ public class HttpUrlConnectionUtil {
         OutputStream os = connection.getOutputStream();
         os.write(request.content.getBytes());
 
-        int status = connection.getResponseCode();
-        if (status == HttpStatus.SC_OK) {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream is = connection.getInputStream();
-            byte[] buffer = new byte[2048];
-            int len;
-            while ((len = is.read(buffer)) != -1) {
-                out.write(buffer, 0, len);
-            }
-            is.close();
-            out.flush();
-            out.close();
-            return new String(out.toByteArray());
 
-        }
-        return null;
+        return connection;
 
 
     }

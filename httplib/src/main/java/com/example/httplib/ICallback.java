@@ -1,13 +1,17 @@
 package com.example.httplib;
 
+import java.net.HttpURLConnection;
+
 /**
  * Created by HP on 2017/3/6.
  */
 
-public interface ICallback {
+public interface ICallback<T> {
 
-    void onSuccess(String result);
+    void onSuccess(T result);
 
     void onFailure(Exception e);
 
+
+    T parse(HttpURLConnection connection) throws Exception;
 }
