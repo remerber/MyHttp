@@ -7,6 +7,10 @@ import java.util.Map;
  */
 
 public class Request {
+
+    public boolean enableProgressUpdated = false;
+
+
     public enum RequestMethod {GET, POST, PUT, DELETE}
 
     public String url;
@@ -30,5 +34,9 @@ public class Request {
     public Request(String url) {
         this.url = url;
         this.method = RequestMethod.GET;
+    }
+
+    public void enableProgressUpdated(boolean enable) {
+        this.enableProgressUpdated = enable;
     }
 }

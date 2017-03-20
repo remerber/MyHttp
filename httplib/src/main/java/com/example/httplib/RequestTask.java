@@ -26,11 +26,18 @@ public class RequestTask extends AsyncTask<Void, Integer, Object> {
     @Override
     protected Object doInBackground(Void... params) {
 
-
         try {
             HttpURLConnection connection = HttpUrlConnectionUtil.execute(request);
-            return request.iCallback.parse(connection);
-
+            if(request.enableProgressUpdated){
+                return request.iCallback.parse(connection, new OnProgressUpdatedListener() {
+                    @Override
+                    public void onProgressUpdated(int curLen, int totalLen) {
+                        publishProgress(curLen, totalLen);
+                    }
+                });
+            }else{
+                return  request.iCallback.parse(connection);
+            }
         } catch (Exception e) {
             return e;
         }
@@ -46,5 +53,11 @@ public class RequestTask extends AsyncTask<Void, Integer, Object> {
         } else {
             request.iCallback.onSuccess(o);
         }
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        request.iCallback.onProgressUpdated(values[0], values[1]);
     }
 }
