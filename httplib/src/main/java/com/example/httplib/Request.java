@@ -9,6 +9,12 @@ import java.util.Map;
 public class Request {
 
     public boolean enableProgressUpdated = false;
+    public OnGlobalExceptionListener onGlobalExceptionListener;
+    public int maxRetryCount = 3;
+
+    public void setGlobalExceptionListener(OnGlobalExceptionListener onGlobalExceptionListener) {
+        this.onGlobalExceptionListener = onGlobalExceptionListener;
+    }
 
 
     public enum RequestMethod {GET, POST, PUT, DELETE}

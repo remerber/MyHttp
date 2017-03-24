@@ -6,7 +6,7 @@ package com.example.httplib;
 
 public  abstract  class XMLCallback<T> extends  AbstractCallback<T> {
     @Override
-    protected T bindData(String result) throws Exception {
+    protected T bindData(String result) throws AppException {
         return null;
     }
 }

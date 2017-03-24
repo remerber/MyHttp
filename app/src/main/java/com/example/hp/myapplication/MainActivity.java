@@ -7,20 +7,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.httplib.AppException;
 import com.example.httplib.FileCallback;
-import com.example.httplib.HttpUrlConnectionUtil;
-import com.example.httplib.ICallback;
 import com.example.httplib.JsonCallback;
+import com.example.httplib.OnGlobalExceptionListener;
 import com.example.httplib.Request;
 import com.example.httplib.RequestTask;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity  {
     private Button button;
     private TextView textView;
 
@@ -33,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // testHttpPostOnSubThread();
-                downloadFile();
+                testHttpPostOnSubThread();
+                // downloadFile();
             }
         });
 
@@ -54,10 +53,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Exception e) {
+            public void onFailure(AppException e) {
+                if (e.statusCode == 403) {
+                    Log.e("tag", e.responseMessage);
+                    Toast.makeText(getApplicationContext(), "PassWord incorrect", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
+        request.setGlobalExceptionListener(this);
         request.content = content;
         RequestTask task = new RequestTask(request);
         task.execute();
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Exception e) {
+            public void onFailure(AppException e) {
 
             }
         }.setCachePath(path));
@@ -91,4 +95,6 @@ public class MainActivity extends AppCompatActivity {
         RequestTask task = new RequestTask(request);
         task.execute();
     }
+
+
 }

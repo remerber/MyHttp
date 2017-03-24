@@ -10,12 +10,12 @@ public interface ICallback<T> {
 
     void onSuccess(T result);
 
-    void onFailure(Exception e);
+    void onFailure(AppException e);
 
 
-    T parse(HttpURLConnection connection, OnProgressUpdatedListener listener) throws Exception;
+    T parse(HttpURLConnection connection, OnProgressUpdatedListener listener) throws AppException;
 
-    T parse(HttpURLConnection connection) throws Exception;
+    T parse(HttpURLConnection connection) throws AppException;
 
     void onProgressUpdated(int curLen, int totalLen);
 }
