@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "com.example.hp.myhttp"
+        applicationId "com.example.hp.myapplication"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
@@ -27,5 +27,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     testCompile 'junit:junit:4.12'
-    compile project(':http')
+    compile project(':httplib')
+    compile 'com.google.code.gson:gson:2.2.4'
 }
